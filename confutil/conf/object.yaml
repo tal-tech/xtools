@@ -1,0 +1,8 @@
+goyamlObject:
+  - host: public1
+    port: 9092
+  - host: public2
+    port: 9093
+  - host: public3
+    port: 9094
+

@@ -1,0 +1,19 @@
+goyaml:
+  name: goyaml
+  hosts: 127.0.0.1 127.0.0.2 127.0.0.3
+
+goyamlStringMap:
+  name: goyaml
+  host: 127.0.0.1
+
+goyamlArrayMap:
+  name: goyaml1 goyaml2
+
+goyamlObject:
+  - host: public1
+    port: 9092
+  - host: public2
+    port: 9093
+  - host: public3
+    port: 9094
+
