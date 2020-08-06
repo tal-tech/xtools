@@ -28,9 +28,6 @@ var version = flag.Bool("v", false, "version")
 //graceful mode,default overseer,mode 1 is facebook graceful
 var mode = flag.Int("mode", 0, "mode")
 
-//flag parse switch, you can control the flag.Parse,default false
-var flagon = falg.Bool("switch", false, "flag parse switch")
-
 //extended flag, you can customize the flag usage
 var usr1 = flag.String("usr1", "", "user defined flag -usr1")
 var usr2 = flag.String("usr2", "", "user defined flag -usr2")
@@ -39,7 +36,7 @@ var usr4 = flag.String("usr4", "", "user defined flag -usr4")
 var usr5 = flag.String("usr5", "", "user defined flag -usr5")
 
 func init() {
-	if !flag.Parsed() && !flagon {
+	if !flag.Parsed() {
 		flag.Parse()
 	}
 }
