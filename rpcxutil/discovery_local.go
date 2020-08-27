@@ -4,9 +4,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/smallnest/rpcx/client"
 	logger "github.com/tal-tech/loggerX"
 	"github.com/tal-tech/xtools/rpcxutil/store"
-	"github.com/smallnest/rpcx/client"
 )
 
 type localDiscovery struct {
@@ -45,6 +45,10 @@ func NewLocalDiscoveryStore(basePath string, serverName string, kv store.Store) 
 
 func (ls *localDiscovery) getStoreKey() string {
 	return ls.basePath + "/" + ls.serverName
+}
+
+func (ls *localDiscovery) SetFilter(filter client.ServiceDiscoveryFilter) {
+	return
 }
 
 func (ls *localDiscovery) GetServices() (ret []*client.KVPair) {

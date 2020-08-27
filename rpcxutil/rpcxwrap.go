@@ -38,7 +38,6 @@ func NewDefaultWrap(serviceName string) RpcxWrap {
 
 func (d *DefaultWrap) WrapCall(c client.XClient, ctx context.Context, serviceMethod string, args interface{}, reply interface{}) (err error) {
 	tag := d.serviceName + "." + serviceMethod
-	systemErrTag := "systemErr." + d.serviceName
 
 	logger.Tx(ctx, tag, "Trace Rpc Call [destinationAddr:%s]", d.getServerAddr(ctx))
 	if skip := ctx.Value("RPCXSKIPLOG"); skip == nil {
