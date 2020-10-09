@@ -15,7 +15,7 @@ import (
 	"testing"
 	"time"
 
-	"git.100tal.com/wangxiao_go_lib/xesTools/flagutil"
+	"github.com/tal-tech/xtools/flagutil"
 	"github.com/stretchr/testify/assert"
 )
 
