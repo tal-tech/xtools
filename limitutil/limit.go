@@ -1,3 +1,5 @@
+// +build !windows
+
 ////////////////////////////////////////////////////////////////////////
 //	NOTE:	This utils are non-thread safe, non-high-performance
 //	utils, use it carefully.
