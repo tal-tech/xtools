@@ -9,7 +9,6 @@ import (
 	"time"
 
 	logger "github.com/tal-tech/loggerX"
-	"github.com/tal-tech/xtools/headerutil"
 )
 
 func PostX(ctx context.Context, target string, values url.Values, headers map[string]string, client ...interface{}) (ret []byte, err error) {
@@ -28,7 +27,7 @@ func PostRawX(ctx context.Context, target string, strval string, headers map[str
 func DoRawX(ctx context.Context, method, target string, strval string, headers map[string]string, client ...interface{}) (ret []byte, err error) {
 	initConf()
 	logger.Tx(ctx, "httputil", "Trace Http Call [Url:%s]", target)
-	headerutil.GenTraceHeader(ctx, headers)
+	//headerutil.GenTraceHeader(ctx, headers)
 	if enableLog {
 		defer logger.Ix(ctx, "httputil", "DoRawX method:%s,target:%s,param:%s,header:%v,ret:%s", method, target, strval, headers, ret)
 	}
