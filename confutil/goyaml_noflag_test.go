@@ -1,4 +1,4 @@
-// +build !noflag
+// +build noflag
 
 /*===============================================================
 *   Copyright (C) 2019 All rights reserved.
@@ -17,7 +17,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/tal-tech/xtools/flagutil"
 )
 
 type YamlStruct struct {
@@ -26,9 +25,7 @@ type YamlStruct struct {
 }
 
 func TestGoYaml(t *testing.T) {
-	flagutil.SetConfig("conf/conf.yaml")
-	SetConfPathPrefix(os.Getenv("GOPATH") + "/src/github.com/tal-tech/xtools/confutil")
-	InitConfig()
+	InitConfig(os.Getenv("GOPATH") + "/src/github.com/tal-tech/xtools/confutil/conf/conf.yaml")
 	assert.Equal(t, GetConf("goyaml", "name"), "goyaml")
 	assert.Equal(t, GetConfDefault("goyaml", "name", ""), "goyaml")
 	assert.Equal(t, GetConfDefault("goyaml", "default", ""), "")

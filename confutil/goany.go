@@ -12,7 +12,13 @@ import (
 //no config source type limited
 //only need to write the load function to init the data
 type AnyFile struct {
-	data map[interface{}]interface{} // Section -> key : value
+	data     map[interface{}]interface{} // Section -> key : value
+	fullpath string
+}
+
+//return the config file path
+func (this *AnyFile) GetFullPath() string {
+	return this.fullpath
 }
 
 //set value

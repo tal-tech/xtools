@@ -1,4 +1,4 @@
-// +build !noflag
+// +build noflag
 
 /*===============================================================
 *   Copyright (C) 2020 All rights reserved.
@@ -16,11 +16,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/tal-tech/xtools/flagutil"
 )
 
 //execute gotest by "go test -args -c=any -test.run=GoAny"
 func TestGoAny(t *testing.T) {
-	flagutil.SetConfig("any")
+	InitConfig("any")
 	assert.Equal(t, strings.Join(GetConfs("Redis", "redis"), ","), "127.0.0.1:6379,127.0.0.1:7379")
 }

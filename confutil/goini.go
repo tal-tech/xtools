@@ -25,6 +25,12 @@ import (
 //implement the Config interface
 type IniFile struct {
 	*goconfig.ConfigFile
+	fullpath string
+}
+
+//return the config file path
+func (this *IniFile) GetFullPath() string {
+	return this.fullpath
 }
 
 func (this *IniFile) Set(section, key string, value interface{}) {
@@ -37,6 +43,7 @@ func loadIniFile(path string) (cfg Config, err error) {
 	file, err := goconfig.LoadConfigFile(path)
 	config := new(IniFile)
 	config.ConfigFile = file
+	config.fullpath = path
 	return config, err
 }
 

@@ -13,7 +13,13 @@ import (
 //support yaml file parse
 //implemented Config interface
 type YamlFile struct {
-	data map[string]interface{} // Section -> key : value
+	data     map[string]interface{} // Section -> key : value
+	fullpath string
+}
+
+//return the config file fullpath
+func (this *YamlFile) GetFullPath() string {
+	return this.fullpath
 }
 
 //set function
@@ -42,6 +48,7 @@ func loadYamlFile(path string) (cfg Config, err error) {
 	}
 	yamlFile := new(YamlFile)
 	yamlFile.data = data
+	yamlFile.fullpath = path
 	return yamlFile, nil
 }
 

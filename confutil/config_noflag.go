@@ -1,5 +1,14 @@
-// +build !noflag
+// +build noflag
 
+/*===============================================================
+*   Copyright (C) 2021 All rights reserved.
+*
+*   FileName：config_noflg.go
+*   Author：WuGuoFu
+*   Date： 2021-03-05
+*   Description：config management without flag dependency
+*
+================================================================*/
 package confutil
 
 import (
@@ -10,8 +19,6 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
-
-	"github.com/tal-tech/xtools/flagutil"
 
 	"github.com/kardianos/osext"
 )
@@ -33,7 +40,7 @@ type Config interface {
 	GetSectionObject(section string, obj interface{}) error
 	//set value by section and key when need
 	Set(section, key string, value interface{})
-	//get the config fullpath
+	//get the config file fullpath
 	GetFullPath() string
 }
 
@@ -56,7 +63,7 @@ var (
 
 //config init function
 //include 3 load module(ini,yaml,any),any is a plugin module,support second develop
-func InitConfig() {
+func InitConfig(config_path string) {
 	//check if config has inited
 	if g_cfg != nil {
 		return
@@ -65,24 +72,15 @@ func InitConfig() {
 	//load the plugin
 	loadPlugin()
 
-	//get the path prefix args
-	//when the path is a opposite path, you need set the prefix,default user home,like "/home/dev"
-	confprefix := flagutil.GetConfigPrefix()
-	if len(*confprefix) != 0 {
-		SetConfPathPrefix(*confprefix)
-	}
-
-	//get the path args
-	config_path := flagutil.GetConfig()
 	var err error
 
 	//set the default path
-	if len(*config_path) == 0 {
-		*config_path = "../conf/conf.ini"
+	if len(config_path) == 0 {
+		config_path = "../conf/conf.ini"
 	}
-	log.Printf("CONF INIT,path:%s", *config_path)
+	log.Printf("CONF INIT,path:%s", config_path)
 	//load config from path
-	if g_cfg, err = Load(*config_path); err != nil {
+	if g_cfg, err = Load(config_path); err != nil {
 		g_cfg = nil
 		log.Printf("Conf,err%v", err)
 	}
@@ -121,7 +119,7 @@ func SetConfPathPrefix(fullPathPrefix string) {
 
 //config set function
 func Set(section, key string, value interface{}) {
-	InitConfig()
+	InitConfig("")
 	if g_cfg == nil {
 		log.Printf("Conf,NOT_FOUND[sec:%s,key:%s]", section, key)
 		return
@@ -201,9 +199,9 @@ func ClearConfigCache() {
 //key:second key
 func GetConf(sec, key string) string {
 	//init
-	InitConfig()
+	InitConfig("")
 	if g_cfg == nil {
-		log.Printf("Conf,NOT_FOUND[sec:%s,key:%s] AT:%v", sec, key, flagutil.GetConfig())
+		log.Printf("Conf,NOT_FOUND[sec:%s,key:%s] AT:%v", sec, key, g_cfg.GetFullPath())
 		return ""
 	}
 	//if value not existed return ""
@@ -214,9 +212,9 @@ func GetConf(sec, key string) string {
 //if value not existed,return default value def
 func GetConfDefault(sec, key, def string) string {
 	//init
-	InitConfig()
+	InitConfig("")
 	if g_cfg == nil {
-		log.Printf("Conf,NOT_FOUND[sec:%s,key:%s] AT:%v", sec, key, flagutil.GetConfig())
+		log.Printf("Conf,NOT_FOUND[sec:%s,key:%s] AT:%v", sec, key, g_cfg.GetFullPath())
 		return ""
 	}
 	//if value not existed return def
@@ -231,7 +229,7 @@ redis = 127.0.0.1:6379 127.0.0.1:7379
 //GetConfs("Redis") like "redis = 127.0.0.1:6379 127.0.0.1:7379",return []string{127.0.0.1:6379,127.0.0.1:7379}
 func GetConfs(sec, key string) []string {
 	//init
-	InitConfig()
+	InitConfig("")
 	if g_cfg == nil {
 		log.Printf("Conf,NOT_FOUND[sec:%s,key:%s]", sec, key)
 		return []string{}
@@ -244,7 +242,7 @@ func GetConfs(sec, key string) []string {
 //return map[string]string
 func GetConfStringMap(sec string) (ret map[string]string) {
 	//init
-	InitConfig()
+	InitConfig("")
 	if g_cfg == nil {
 		log.Printf("Conf,NOT_FOUND[sec:%s]", sec)
 		return nil
@@ -267,7 +265,7 @@ func GetConfStringMap(sec string) (ret map[string]string) {
 //GetConfArrayMap("Redis") return map[string][]string{"redis":[127.0.0.1:6379,127.0.0.1:7379]}
 func GetConfArrayMap(sec string) (ret map[string][]string) {
 	//init
-	InitConfig()
+	InitConfig("")
 	if g_cfg == nil {
 		log.Printf("Conf,NOT_FOUND[sec:%s]", sec)
 		return nil
@@ -285,7 +283,7 @@ func GetConfArrayMap(sec string) (ret map[string][]string) {
 // get config value with object value return
 func ConfMapToStruct(sec string, v interface{}) error {
 	//init
-	InitConfig()
+	InitConfig("")
 	if g_cfg == nil {
 		log.Printf("Conf,NOT_FOUND[sec:%s]", sec)
 		return nil

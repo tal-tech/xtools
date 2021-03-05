@@ -1,4 +1,4 @@
-// +build !noflag
+// +build noflag
 
 /*===============================================================
 *   Copyright (C) 2019 All rights reserved.
@@ -18,7 +18,6 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/tal-tech/xtools/flagutil"
 )
 
 type IniStruct struct {
@@ -30,9 +29,7 @@ type IniStruct struct {
 }
 
 func TestGoConfig(t *testing.T) {
-	SetConfPathPrefix(os.Getenv("GOPATH") + "/src/github.com/tal-tech/xtools/confutil")
-	flagutil.SetConfig("conf/conf.ini")
-	InitConfig()
+	InitConfig(os.Getenv("GOPATH") + "/src/github.com/tal-tech/xtools/confutil/conf/conf.ini")
 	assert.Equal(t, "goconfig", GetConf("goconfig", "name"))
 	assert.Equal(t, GetConfDefault("goconfig", "name", ""), "goconfig")
 	assert.Equal(t, GetConfDefault("goconfig", "default", ""), "")
